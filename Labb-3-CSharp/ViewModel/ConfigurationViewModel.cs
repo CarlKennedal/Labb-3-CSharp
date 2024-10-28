@@ -16,5 +16,15 @@ namespace Labb_3_CSharp.ViewModel
         }
 
         public QuestionPackViewModel? ActivePack { get => mainWindomViewModel.ActivePack; }
+        
+        private void AddButton()
+        {
+
+        }
+        private void RemoveButton() 
+        {
+
+        }
+
     }
 }

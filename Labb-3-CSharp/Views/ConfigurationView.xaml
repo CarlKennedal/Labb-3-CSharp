@@ -6,8 +6,35 @@
              xmlns:local="clr-namespace:Labb_3_CSharp.Views"
              DataContext="{Binding ConfigurationViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="300" d:DesignWidth="200">
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="125"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <ListBox x:Name="lbQuestionPack"
+                 Margin="10"
+                 Grid.Row="2"
+                 Grid.RowSpan="2"
+                 SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                 >
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="Question :"
+                                   FontWeight="Bold"/>
+                        <TextBlock Text="Binding Query, Mode Twoway"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
     </Grid>
 </UserControl>

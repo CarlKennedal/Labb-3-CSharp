@@ -16,15 +16,16 @@ namespace Labb_3_CSharp.ViewModel
 
         private QuestionPackViewModel? _activePack;
 
-		public QuestionPackViewModel? ActivePack
-		{
-			get => _activePack;
-			set 
-			{ 
-				_activePack = value;
-				RaisePropertyChanged();
-			}
-		}
+        public QuestionPackViewModel? ActivePack
+        {
+            get => _activePack;
+            set
+            {
+                _activePack = value;
+                RaisePropertyChanged();
+                ConfigurationViewModel.RaisePropertyChanged("ActivePack");
+            }
+        }
         public MainWindomViewModel()
         {
             PlayerViewModel = new PlayerViewModel(this);

@@ -21,9 +21,12 @@ namespace Labb_3_CSharp.Command
             this.execute = execute;
             this.canExecute = canExecute;
         }
+
         public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-        public bool CanExecute(object? parameter) => canExecute is null? true : canExecute(parameter);
-        
-        public void Execute(object? parameter) =>execute(parameter);
+
+        public bool CanExecute(object? parameter) => canExecute is null ? true : canExecute(parameter);
+
+        public void Execute(object? parameter) => execute(parameter);
+
     }
 }

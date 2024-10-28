@@ -6,10 +6,10 @@ namespace Labb_3_CSharp.ViewModel
     internal class PlayerViewModel : ViewModelBase
     {
         private readonly MainWindomViewModel? mainWindomViewModel;
+
         private DispatcherTimer timer;
 
         private string _testData;
-
         public string TestData { 
             get => _testData;
             private set 
@@ -32,8 +32,9 @@ namespace Labb_3_CSharp.ViewModel
             timer.Tick += Timer_Tick;
             //timer.Start();
 
-            UpdateButtonCommand = new DelegateCommand(UpdateButton);
+            UpdateButtonCommand = new DelegateCommand(UpdateButton,CanUpdateButton);
         }
+        private bool CanUpdateButton(object? arg) => TestData.Length < 20;
 
         private void UpdateButton(object obj)
         {

@@ -32,9 +32,21 @@
                           Icon="{fa:Icon Plus}"/>
                 <MenuItem Header="_Remove Question"
                           Icon="{fa:Icon Minus}"/>
+                <MenuItem Header="_Pack Options"
+                          Icon="{fa:Icon Sliders}"/>
                 <MenuItem Header="_Update"
                           Icon="{fa:Icon ArrowsRotate}"
-                          Command="{Binding UpdateButtonCommand}"/>
+                          Command="{Binding PlayerViewModel.UpdateButtonCommand}"/>
+            </MenuItem>
+            <MenuItem Header="_View">
+                <MenuItem Header="_Play"
+                          Icon="{fa:Icon Play}"/>
+                <MenuItem Header="_Edit"
+                          Icon="{fa:Icon Gears}"/>
+                <Separator/>
+                <MenuItem Header="_Fullscreen"
+                              InputGestureText="Alt+Enter"
+                              Icon="{fa:Icon Expand}"/>
             </MenuItem>
         </Menu>
     </Grid>
