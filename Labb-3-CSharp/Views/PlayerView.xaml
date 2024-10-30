@@ -8,11 +8,66 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Button Grid.Row="1"
-                VerticalAlignment="Center"
-                HorizontalAlignment="Center"
-                Content="{Binding TestData}"
-                Margin="10"
-                Command="{Binding UpdateButtonCommand}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="150"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Fråga:"
+                   Grid.Column="1"
+                   FontWeight="Bold"
+                   FontSize="25"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"/>
+            <Label Content="Timer"
+                   FontWeight="Bold"
+                   FontSize="20"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   Grid.Column="2"/>
+        </Grid>
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Grid.Row="1">
+            <Button HorizontalAlignment="Left" Margin="10" Height="80"
+                   Width="200"
+                   Content="Svar 1: "
+                   FontWeight="Bold"
+                   BorderBrush="Black"
+                   >                
+            </Button>
+            <Button HorizontalAlignment="Right" Margin="10" Height="80"
+                   Width="200"
+                   Content="Svar 2: "
+                   FontWeight="Bold"
+                   BorderBrush="Black"
+                   >
+            </Button>
+        </StackPanel>        
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Grid.Row="2">
+            <Button HorizontalAlignment="Left" Margin="10" Height="80"
+                   Width="200"
+                   Content="Svar 3: "
+                   FontWeight="Bold"
+                   BorderBrush="Black"
+                   >
+                </Button>
+            <Button HorizontalAlignment="Right" Margin="10" Height="80"
+                   Width="200"
+                   Content="Svar 4: "
+                   FontWeight="Bold"
+                   BorderBrush="Black"
+                   >
+            </Button>
+        </StackPanel>
     </Grid>
 </UserControl>
