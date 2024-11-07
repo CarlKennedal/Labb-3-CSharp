@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
-             xmlns:local="clr-namespace:Labb_3_CSharp.Views" xmlns:viewmodel="clr-namespace:Labb_3_CSharp.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:ConfigurationViewModel}"
+             xmlns:local="clr-namespace:Labb_3_CSharp.Views" xmlns:viewmodel="clr-namespace:Labb_3_CSharp.ViewModel" 
+             d:DataContext="{d:DesignInstance Type=viewmodel:ConfigurationViewModel}"
              DataContext="{Binding ConfigurationViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -19,31 +20,43 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <Button Content="{fa:Icon ScrewdriverWrench}" Width="20" Margin="2,5"/>
                     <Button Content="{fa:Icon Plus}" Command="{Binding AddButtonCommand}" Width="20" Margin="2,5"/>
-                    <Button Content="{fa:Icon Minus}" Width="20" Margin="2,5"/>
+                    <Button Content="{fa:Icon Minus}" Command="{Binding RemoveButtonCommand}" Width="20" Margin="2,5"/>
                 </StackPanel>
-                <ListBox x:Name="QuestionList" Width="Auto" Height="380" HorizontalAlignment="Stretch">
-                    <ListBoxItem Content="{Binding ActivePack.Name}" />
+                <Separator></Separator>
+                <ListBox ItemsSource="{Binding ActivePack.Questions}"
+         SelectedItem="{Binding SelectedQuestion, Mode=TwoWay}"
+         Grid.Column="0"
+         Margin="10">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Query}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
                 </ListBox>
             </StackPanel>
-
         </GroupBox>
 
-        <ListBox Grid.Column="1" Margin="10,0,0,0" >
-            
-            <TextBlock Text="Question:" FontWeight="Bold" Margin="0,0,0,5"/>
-            <TextBox x:Name="QuestionText" Text="{Binding ActivePack.Questions[0].Query, Mode=TwoWay}" Height="100" Width="200" />
+        <ContentControl Content="{Binding SelectedQuestion}" Grid.Column="1" Margin="10,0,0,0">
+            <ContentControl.ContentTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="Question:" FontWeight="Bold" Margin="0,0,0,5"/>
+                        <TextBox HorizontalAlignment="Left" Text="{Binding Query, Mode=TwoWay}" Height="100" Width="200" />
 
-            <TextBlock Text="Correct answer: " FontWeight="Bold" Margin="0,10,0,5"/>
-            <TextBox x:Name="CorrectAnswer" Width="150" Text="{Binding ActivePack.Questions[0].CorrectAnswer, Mode=TwoWay}" />
+                        <TextBlock Text="Correct answer:" FontWeight="Bold" Margin="0,10,0,5"/>
+                        <TextBox HorizontalAlignment="Left" Width="250" Text="{Binding CorrectAnswer, Mode=TwoWay}" />
 
-            <TextBlock Text="First Incorrect Answer:" FontWeight="Bold" Margin="0,10,0,5"/>
-            <TextBox x:Name="IncorrectAnswer1" Width="150" Text="{Binding ActivePack.Questions[0].IncorrectAnswers[0], Mode =TwoWay}"/>
+                        <TextBlock Text="First Incorrect Answer:" FontWeight="Bold" Margin="0,10,0,5"/>
+                        <TextBox HorizontalAlignment="Left" Width="250" Text="{Binding IncorrectAnswers[0], Mode=TwoWay}"/>
 
-            <TextBlock Text="Second Incorrect Answer:" FontWeight="Bold" Margin="0,10,0,5"/>
-            <TextBox x:Name="IncorrectAnswer2" Width="150" Text="{Binding ActivePack.Questions[0].IncorrectAnswers[1], Mode=TwoWay}"/>
+                        <TextBlock Text="Second Incorrect Answer:" FontWeight="Bold" Margin="0,10,0,5"/>
+                        <TextBox HorizontalAlignment="Left" Width="250" Text="{Binding IncorrectAnswers[1], Mode=TwoWay}"/>
 
-            <TextBlock Text="Third Incorrect Answer:" FontWeight="Bold" Margin="0,10,0,5"/>
-            <TextBox x:Name="IncorrectAnswer3" Width="150" Text="{Binding ActivePack.Questions[0].IncorrectAnswers[2],Mode=TwoWay}"/>
-        </ListBox>
+                        <TextBlock Text="Third Incorrect Answer:" FontWeight="Bold" Margin="0,10,0,5"/>
+                        <TextBox HorizontalAlignment="Left" Width="250" Text="{Binding IncorrectAnswers[2], Mode=TwoWay}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ContentControl.ContentTemplate>
+        </ContentControl>
     </Grid>
 </UserControl>

@@ -13,6 +13,16 @@ namespace Labb_3_CSharp.ViewModel
     {
         private readonly MainWindomViewModel? mainWindomViewModel;
 
+        private Question _selectedQuestion;
+        public Question SelectedQuestion
+        {
+            get => _selectedQuestion;
+            set
+            {
+                _selectedQuestion = value;
+                RaisePropertyChanged(nameof(SelectedQuestion));
+            }
+        }
         public DelegateCommand AddButtonCommand { get; }
         public DelegateCommand RemoveButtonCommand { get; }
 
@@ -24,18 +34,23 @@ namespace Labb_3_CSharp.ViewModel
             RemoveButtonCommand = new DelegateCommand(RemoveButton, RemoveButtonActive);
         }
 
+
         public QuestionPackViewModel? ActivePack { get => mainWindomViewModel?.ActivePack; }
         
         private void AddButton(object parameter)
         {
-           ActivePack.Questions.Add(new Question("Fråga","Rätt svar","Fel svar 1","Fel svar två","Fel svar tre"));
+           ActivePack?.Questions.Add(new Question("Fråga","Rätt svar","Fel svar 1","Fel svar två","Fel svar tre"));
            AddButtonCommand.RaiseCanExecuteChanged();
         }
+
         private void RemoveButton(object parameter) 
         {
-            
+            ActivePack?.Questions.Remove(SelectedQuestion);
+            RemoveButtonCommand.RaiseCanExecuteChanged();
         }
-        private bool RemoveButtonActive(object? arg)
-        { throw new NotImplementedException(); }
+        private bool CanRemove(object parameter)
+        {
+            return SelectedQuestion != null;
+        }
     }
 }

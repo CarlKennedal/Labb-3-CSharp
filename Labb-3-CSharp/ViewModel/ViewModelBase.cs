@@ -11,5 +11,6 @@ namespace Labb_3_CSharp.ViewModel
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
     }
 }
