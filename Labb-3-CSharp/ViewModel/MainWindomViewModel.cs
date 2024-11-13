@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Labb_3_CSharp.ViewModel
 {
@@ -18,7 +19,6 @@ namespace Labb_3_CSharp.ViewModel
         public DelegateCommand CreateNewPackCommand { get; }
         public DelegateCommand SelectPackCommand { get; }
         public DelegateCommand DeletePackCommand { get; }
-
         private QuestionPackViewModel? _activePack;
 
         public QuestionPackViewModel? ActivePack
@@ -40,9 +40,8 @@ namespace Labb_3_CSharp.ViewModel
             Packs.Add(ActivePack);
             CreateNewPackCommand = new DelegateCommand(CreateNewPack);
             DeletePackCommand = new DelegateCommand(DeleteSelectedPack);
-            SelectPackCommand = new DelegateCommand(SelectQuestionPack);
+            SelectPackCommand = new DelegateCommand(ExecuteSelectPack);
         }
-
 
         public void CreateNewPack(object parameter)
         {
@@ -50,12 +49,9 @@ namespace Labb_3_CSharp.ViewModel
             var newQuestionPackViewModel = new QuestionPackViewModel(newQuestionPack);
             Packs.Add(newQuestionPackViewModel);
         }
-        public void SelectQuestionPack(object parameter)
+        public void ExecuteSelectPack(object parameter)
         {
-            if (parameter is QuestionPack)
-            {
-                var newActivePack = parameter;
-            }
+            ActivePack = parameter as QuestionPackViewModel;
         }
         private void DeleteSelectedPack(object obj)
         {
