@@ -24,5 +24,6 @@ namespace Labb_3_CSharp.Model
         public int TimeLimitInSeconds { get; set; }
 
         public List<Question> Questions { get; set; }
+
     }
 }

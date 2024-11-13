@@ -1,4 +1,5 @@
-﻿using Labb_3_CSharp.Model;
+﻿using Labb_3_CSharp.Command;
+using Labb_3_CSharp.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,6 +13,7 @@ namespace Labb_3_CSharp.ViewModel
 {
     internal class QuestionPackViewModel : ViewModelBase
     {
+
         private readonly QuestionPack model;
         public QuestionPackViewModel(QuestionPack model) 
         {
@@ -45,5 +47,7 @@ namespace Labb_3_CSharp.ViewModel
             }
         }
         public ObservableCollection<Question> Questions { get; }
+
+
     }
 }

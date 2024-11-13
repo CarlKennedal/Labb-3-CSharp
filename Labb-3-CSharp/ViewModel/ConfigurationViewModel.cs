@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Labb_3_CSharp.Dialogs;
 
 namespace Labb_3_CSharp.ViewModel
 {
@@ -21,22 +22,31 @@ namespace Labb_3_CSharp.ViewModel
             {
                 _selectedQuestion = value;
                 RaisePropertyChanged(nameof(SelectedQuestion));
+                RemoveButtonCommand.RaiseCanExecuteChanged();
             }
         }
         public DelegateCommand AddButtonCommand { get; }
         public DelegateCommand RemoveButtonCommand { get; }
+        public DelegateCommand OpenPackOptionsCommand { get; }
 
         public ConfigurationViewModel(MainWindomViewModel? mainWindomViewModel)
         {
             this.mainWindomViewModel = mainWindomViewModel;
 
             AddButtonCommand = new DelegateCommand(AddButton);
-            RemoveButtonCommand = new DelegateCommand(RemoveButton, RemoveButtonActive);
+            RemoveButtonCommand = new DelegateCommand(RemoveButton, CanRemove);
+            OpenPackOptionsCommand = new DelegateCommand(OpenPackOptions);
         }
 
 
         public QuestionPackViewModel? ActivePack { get => mainWindomViewModel?.ActivePack; }
-        
+
+        private void OpenPackOptions(object parameter)
+        {
+            PackOptions packOptionsWindow = new PackOptions();
+            packOptionsWindow.ShowDialog();
+        }
+
         private void AddButton(object parameter)
         {
            ActivePack?.Questions.Add(new Question("Fråga","Rätt svar","Fel svar 1","Fel svar två","Fel svar tre"));

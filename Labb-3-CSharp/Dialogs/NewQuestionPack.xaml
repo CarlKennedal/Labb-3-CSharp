@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Labb_3_CSharp.Dialogs"
         mc:Ignorable="d"
-        Title="NewQuestionPack" Height="150" Width="150">
+        Title="NewQuestionPack" Height="180" Width="160">
     <Grid>
         <StackPanel>
             <TextBlock Text="Pack Name:"

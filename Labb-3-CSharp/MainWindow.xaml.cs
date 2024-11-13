@@ -1,4 +1,5 @@
-﻿using Labb_3_CSharp.ViewModel;
+﻿using Labb_3_CSharp.Model;
+using Labb_3_CSharp.ViewModel;
 using System.Windows;
 
 namespace Labb_3_CSharp
@@ -12,7 +13,6 @@ namespace Labb_3_CSharp
         {
             InitializeComponent();
             DataContext = new MainWindomViewModel();
-
 
 
 

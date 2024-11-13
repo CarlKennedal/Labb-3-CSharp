@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
-             xmlns:local="clr-namespace:Labb_3_CSharp.Views"
+             xmlns:local="clr-namespace:Labb_3_CSharp.Views" xmlns:viewmodel="clr-namespace:Labb_3_CSharp.ViewModel" 
+             d:DataContext="{d:DesignInstance Type=viewmodel:MainWindomViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -13,15 +14,29 @@
             <MenuItem Header="_File">
 
                 <MenuItem Header="_New Question Pack" 
-                          Icon="{fa:Icon FolderPlus}"/>
+                          Icon="{fa:Icon FolderPlus}"
+                          Command="{Binding CreateNewPackCommand}"/>
 
                 <MenuItem Header="_Select Question Pack"
-                          Icon="{fa:Icon FolderOpen}"/>
+                          Icon="{fa:Icon FolderOpen}">
+                    <ListBox 
+                        ItemsSource="{Binding Path=Packs, Mode = OneWay}"
+                        Grid.Column="0"
+                        Margin="5">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Button Content = "{Binding Path=Name}"
+                                        Command="{Binding DataContext.SelectPackCommand, 
+                  RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </MenuItem>
 
                 <MenuItem Header="_Delete Question Pack"
                           Icon="{fa:Icon TrashCan}" />
 
-                <Separator/>
+                <Separator BorderBrush="DarkGray" BorderThickness="1"/>
 
                 <MenuItem Header="_Exit"
                           Icon="{fa:Icon DoorOpen}"/>
@@ -29,9 +44,11 @@
             </MenuItem>
             <MenuItem Header="_Edit">
                 <MenuItem Header="_Add Question"
-                          Icon="{fa:Icon Plus}"/>
+                          Icon="{fa:Icon Plus}"
+                          Command="{Binding AddButtonCommand}"/>
                 <MenuItem Header="_Remove Question"
-                          Icon="{fa:Icon Minus}"/>
+                          Icon="{fa:Icon Minus}"
+                          Command="{Binding RemoveButtonCommand}"/>
                 <MenuItem Header="_Pack Options"
                           Icon="{fa:Icon Sliders}"/>
                 <MenuItem Header="_Update"
