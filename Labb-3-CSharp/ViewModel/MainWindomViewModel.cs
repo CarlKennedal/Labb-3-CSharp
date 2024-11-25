@@ -2,6 +2,7 @@
 using Labb_3_CSharp.Dialogs;
 using Labb_3_CSharp.Model;
 using System;
+using System.Windows;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -16,9 +17,10 @@ namespace Labb_3_CSharp.ViewModel
         public ObservableCollection<QuestionPackViewModel> ?Packs { get; set; }
         public PlayerViewModel PlayerViewModel { get; }
         public ConfigurationViewModel ConfigurationViewModel { get; }
-        public DelegateCommand CreateNewPackCommand { get; }
+        public DelegateCommand CreateNewPackCommand { get; }        
         public DelegateCommand SelectPackCommand { get; }
         public DelegateCommand DeletePackCommand { get; }
+        public DelegateCommand ExitAppCommand { get; }
         private QuestionPackViewModel? _activePack;
 
         public QuestionPackViewModel? ActivePack
@@ -39,10 +41,15 @@ namespace Labb_3_CSharp.ViewModel
             ActivePack = new QuestionPackViewModel(new QuestionPack("My Question Pack"));
             Packs.Add(ActivePack);
             CreateNewPackCommand = new DelegateCommand(CreateNewPack);
-            DeletePackCommand = new DelegateCommand(DeleteSelectedPack);
+            DeletePackCommand = new DelegateCommand(DeleteSelectedPack, CanRemove);
             SelectPackCommand = new DelegateCommand(ExecuteSelectPack);
+            ExitAppCommand = new DelegateCommand(ExitApp);
         }
 
+        private void ExitApp(object obj)
+        {
+            Application.Current.Shutdown();
+        }
         public void CreateNewPack(object parameter)
         {
             var newQuestionPack = new QuestionPack($"Question pack {Packs.Count + 1}");
@@ -52,11 +59,16 @@ namespace Labb_3_CSharp.ViewModel
         public void ExecuteSelectPack(object parameter)
         {
             ActivePack = parameter as QuestionPackViewModel;
+            RaisePropertyChanged();
         }
         private void DeleteSelectedPack(object obj)
         {
-            throw new NotImplementedException();
+            Packs.Remove(ActivePack);
+            RaisePropertyChanged();
         }
-
+        private bool CanRemove(object parameter)
+        {
+            return ActivePack != null;
+        }
     }
 }

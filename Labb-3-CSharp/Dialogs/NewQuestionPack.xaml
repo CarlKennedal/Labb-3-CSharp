@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Labb_3_CSharp.Dialogs"
+        xmlns:local="clr-namespace:Labb_3_CSharp.Dialogs" xmlns:viewmodel="clr-namespace:Labb_3_CSharp.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:MainWindomViewModel}"
         mc:Ignorable="d"
         Title="NewQuestionPack" Height="180" Width="160">
     <Grid>
@@ -38,7 +38,8 @@
             <Slider x:Name="timeSlider" Minimum="1" Maximum="30" Margin="5,0,5,0"  
                     VerticalAlignment="Bottom" IsSnapToTickEnabled="True" 
                     TickFrequency="1" TickPlacement="BottomRight"/>
-
+            <Button Content="Create new pack."
+                    Command="{Binding CreateNewPackCommand}"/>
         </StackPanel>
     </Grid>
 </Window>
