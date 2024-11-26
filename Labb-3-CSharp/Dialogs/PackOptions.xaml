@@ -21,10 +21,11 @@
             <TextBlock Text="Difficulty:"
                    FontWeight="DemiBold"
                    Margin="5,0,5,0"/>
-            <ComboBox ItemsSource="{Binding Source={StaticResource diffConv}}"
-          SelectedValue="{Binding DifficultyConverter,
+            <ComboBox ItemsSource="{Binding Path=ActivePack.Difficulty}"
+                                SelectedValue="{Binding Path=ActivePack.Difficulty,
                                 Converter={StaticResource diffConv}, 
                                 ConverterParameter={x:Type model:DifficultyConverter}}"
+                      SelectedValuePath="Content"
                 Margin="5,0,5,5" 
                  >
                 <ComboBoxItem Tag="1"

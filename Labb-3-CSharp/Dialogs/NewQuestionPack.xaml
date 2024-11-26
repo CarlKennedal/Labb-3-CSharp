@@ -3,20 +3,28 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Labb_3_CSharp.Dialogs" xmlns:viewmodel="clr-namespace:Labb_3_CSharp.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:MainWindomViewModel}"
+        xmlns:local="clr-namespace:Labb_3_CSharp.Dialogs" xmlns:viewmodel="clr-namespace:Labb_3_CSharp.ViewModel" xmlns:model="clr-namespace:Labb_3_CSharp.Model" 
         mc:Ignorable="d"
         Title="NewQuestionPack" Height="180" Width="160">
+    <Window.Resources>
+        <model:DifficultyConverter x:Key="diffConv"/>
+    </Window.Resources>
     <Grid>
         <StackPanel>
             <TextBlock Text="Pack Name:"
                    FontWeight="DemiBold"
                    Margin="5,0,5,0"/>
             <TextBox x:Name="packname"
+                     Text="{Binding PackName, Mode=TwoWay}"
                  Margin="5,0,5,0"/>
             <TextBlock Text="Difficulty:"
                    FontWeight="DemiBold"
                    Margin="5,0,5,0"/>
-            <ComboBox Margin="5,0,5,5">
+            <ComboBox SelectedValue="{Binding Difficulty, 
+                UpdateSourceTrigger=PropertyChanged, 
+                Converter={StaticResource diffConv},             
+                ConverterParameter={x:Type model:DifficultyConverter}}" 
+                  SelectedValuePath="Tag" Margin="5,0,5,5">
                 <ComboBoxItem Tag="1"
                               Content="Easy"/>
                 <ComboBoxItem Tag="2"
@@ -35,10 +43,12 @@
                             Margin="5,0,5,0" Grid.Column="1"/>
                 <TextBlock  Text="seconds" Margin="5,0,5,0" Grid.Column="2"/>
             </Grid>
-            <Slider x:Name="timeSlider" Minimum="1" Maximum="30" Margin="5,0,5,0"  
+            <Slider x:Name="timeSlider" Value="{Binding Path=TimeLimitInSeconds, UpdateSourceTrigger=PropertyChanged}" Minimum="1" Maximum="30" Margin="5,0,5,0"  
                     VerticalAlignment="Bottom" IsSnapToTickEnabled="True" 
                     TickFrequency="1" TickPlacement="BottomRight"/>
             <Button Content="Create new pack."
+                    Margin="15,0,15,0"
+                    FontWeight="DemiBold"
                     Command="{Binding CreateNewPackCommand}"/>
         </StackPanel>
     </Grid>

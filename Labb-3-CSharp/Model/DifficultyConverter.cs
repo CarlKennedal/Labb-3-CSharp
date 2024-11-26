@@ -13,22 +13,31 @@ namespace Labb_3_CSharp.Model
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Enum enumValue = default(Enum);
-            if (parameter is Type)
+            if (value is Enum enumValue)
             {
-                enumValue = (Enum)Enum.Parse((Type)parameter, value.ToString());
+                return System.Convert.ToInt32(value);
             }
-            return enumValue;
+            throw new ArgumentException("Value must be an Enum.");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            int returnValue = 0;
-            if (parameter is Type)
+            
+            if (targetType.IsEnum)
             {
-                returnValue = (int)Enum.Parse((Type)parameter, value.ToString());
+                if (value is int intValue) 
+                {
+                    return Enum.ToObject(targetType, intValue);
+                }
+                else if (value is string stringValue) 
+                {
+                     if (Enum.TryParse(targetType, stringValue, out var result))
+                    {
+                        return result;
+                    }
+                }
             }
-            return returnValue;
+            throw new ArgumentException("Invalid value or parameter type.");
         }
     }
 }

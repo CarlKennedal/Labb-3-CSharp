@@ -18,6 +18,7 @@ namespace Labb_3_CSharp.ViewModel
         public DelegateCommand CreateNewPackCommand { get; }
         public DelegateCommand SelectPackCommand { get; }
         public DelegateCommand DeletePackCommand { get; }
+        public DelegateCommand OpenNewPackCommand {  get; }
         public DelegateCommand ExitAppCommand { get; }
         public DelegateCommand PlayButtonCommand { get; }
         public ObservableCollection<QuestionPackViewModel>? Packs { get; set; }
@@ -29,6 +30,31 @@ namespace Labb_3_CSharp.ViewModel
             set
             {
                 _difficultyConverter = value;
+                RaisePropertyChanged();
+            }
+        }
+        private string _packName;
+        public string PackName { get => _packName; set
+            {
+                _packName = value;
+                RaisePropertyChanged();
+            } 
+        }
+        private Difficulty _difficulty;
+        public Difficulty Difficulty
+        {
+            get => _difficulty; set
+            {
+                _difficulty = value;
+                RaisePropertyChanged();
+            }
+        }
+        private int _timeLimitInSeconds;
+        public int TimeLimitInSeconds
+        {
+            get => _timeLimitInSeconds; set
+            {
+                _timeLimitInSeconds = value;
                 RaisePropertyChanged();
             }
         }
@@ -66,6 +92,7 @@ namespace Labb_3_CSharp.ViewModel
             SelectPackCommand = new DelegateCommand(ExecuteSelectPack);
             ExitAppCommand = new DelegateCommand(ExitApp);
             PlayButtonCommand = new DelegateCommand(PlayButton);
+            OpenNewPackCommand = new DelegateCommand(OpenNewPackWindow);
         }
         private void PlayButton(object obj)
         {
@@ -85,11 +112,23 @@ namespace Labb_3_CSharp.ViewModel
         {
             Application.Current.Shutdown();
         }
+        public void OpenNewPackWindow(object parameter)
+        {
+            var newQuestionPackView = new NewQuestionPack();
+            newQuestionPackView.DataContext = this;
+            newQuestionPackView.ShowDialog();
+        }
         public void CreateNewPack(object parameter)
         {
-            var newQuestionPack = new QuestionPack($"Question pack {Packs.Count + 1}");
+            var newQuestionPack = new QuestionPack(PackName, Difficulty, TimeLimitInSeconds)
+            {
+                Name = PackName,
+                Difficulty = Difficulty,
+                TimeLimitInSeconds = TimeLimitInSeconds
+            };
             var newQuestionPackViewModel = new QuestionPackViewModel(newQuestionPack);
             Packs.Add(newQuestionPackViewModel);
+            ActivePack = newQuestionPackViewModel;
         }
         public void ExecuteSelectPack(object parameter)
         {

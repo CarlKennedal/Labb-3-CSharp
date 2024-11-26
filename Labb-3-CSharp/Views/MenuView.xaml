@@ -15,7 +15,7 @@
 
                 <MenuItem Header="_New Question Pack" 
                           Icon="{fa:Icon FolderPlus}"
-                          Command="{Binding CreateNewPackCommand}"/>
+                          Command="{Binding OpenNewPackCommand}"/>
 
                 <MenuItem Header="_Select Question Pack"
                           Icon="{fa:Icon FolderOpen}">
