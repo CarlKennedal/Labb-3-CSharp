@@ -64,7 +64,8 @@
             </MenuItem>
             <MenuItem Header="_View">
                 <MenuItem Header="_Play"
-                          Icon="{fa:Icon Play}"/>
+                          Icon="{fa:Icon Play}"
+                          Command="{Binding PlayButtonCommand}"/>
                 <Separator/>
                 <MenuItem Header="_Fullscreen"
                               InputGestureText="Alt+Enter"

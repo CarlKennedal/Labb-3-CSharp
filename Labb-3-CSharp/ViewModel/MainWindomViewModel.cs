@@ -9,20 +9,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Labb_3_CSharp.Views;
 
 namespace Labb_3_CSharp.ViewModel
 {
     internal class MainWindomViewModel : ViewModelBase
     {
-        public ObservableCollection<QuestionPackViewModel> ?Packs { get; set; }
-        public PlayerViewModel PlayerViewModel { get; }
-        public ConfigurationViewModel ConfigurationViewModel { get; }
-        public DelegateCommand CreateNewPackCommand { get; }        
+        public DelegateCommand CreateNewPackCommand { get; }
         public DelegateCommand SelectPackCommand { get; }
         public DelegateCommand DeletePackCommand { get; }
         public DelegateCommand ExitAppCommand { get; }
+        public DelegateCommand PlayButtonCommand { get; }
+        public ObservableCollection<QuestionPackViewModel>? Packs { get; set; }
+        public PlayerViewModel PlayerViewModel { get; }
+        public ConfigurationViewModel ConfigurationViewModel { get; }
         private QuestionPackViewModel? _activePack;
-
+        private object _currentView;
+        public object CurrentView
+        {
+            get => _currentView;
+            set
+            {
+                _currentView = value;
+                RaisePropertyChanged();
+            }
+        }
         public QuestionPackViewModel? ActivePack
         {
             get => _activePack;
@@ -35,6 +46,7 @@ namespace Labb_3_CSharp.ViewModel
         }
         public MainWindomViewModel()
         {
+            CurrentView = new ConfigurationView();
             PlayerViewModel = new PlayerViewModel(this);
             ConfigurationViewModel = new ConfigurationViewModel(this);
             Packs = new ObservableCollection<QuestionPackViewModel>();
@@ -44,6 +56,20 @@ namespace Labb_3_CSharp.ViewModel
             DeletePackCommand = new DelegateCommand(DeleteSelectedPack, CanRemove);
             SelectPackCommand = new DelegateCommand(ExecuteSelectPack);
             ExitAppCommand = new DelegateCommand(ExitApp);
+            PlayButtonCommand = new DelegateCommand(PlayButton);
+        }
+        private void PlayButton(object obj)
+        {
+            var playerView = new PlayerView();
+            playerView.DataContext = PlayerViewModel;
+            CurrentView = playerView;
+            PlayerViewModel.LoadQuestion();
+        }
+        public void EndGame()
+        {
+            var configurationView = new ConfigurationView();
+            configurationView.DataContext = ConfigurationViewModel;
+            CurrentView = configurationView;
         }
 
         private void ExitApp(object obj)

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Labb_3_CSharp.Dialogs;
+using Labb_3_CSharp.Views;
 
 namespace Labb_3_CSharp.ViewModel
 {
@@ -40,6 +41,7 @@ namespace Labb_3_CSharp.ViewModel
 
 
         public QuestionPackViewModel? ActivePack { get => mainWindomViewModel?.ActivePack; }
+
 
         private void OpenPackOptions(object parameter)
         {

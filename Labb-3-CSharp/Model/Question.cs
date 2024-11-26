@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Labb_3_CSharp.Model
 {
-    internal class Question
+    public class Question
     {
         public Question(string query, string correctAnswer, 
             string incorrectAnswer1, string incorrectAnswer2, string incorrectAnswer3)

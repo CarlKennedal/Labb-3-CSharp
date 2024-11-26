@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Labb_3_CSharp.Views"
-             DataContext="{Binding PlayerViewModel}"
+             xmlns:local="clr-namespace:Labb_3_CSharp.Views" xmlns:viewmodel="clr-namespace:Labb_3_CSharp.ViewModel" 
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -20,7 +19,13 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="150"/>
             </Grid.ColumnDefinitions>
-            <Label Content="Fråga:"
+            <StackPanel Orientation="Vertical">
+                <TextBlock Margin ="20,70,20,0" Text="{Binding QuestionAmountDisplay}"
+                           FontWeight="DemiBold"/>
+                <TextBlock Margin="20,15,20,0" Text="{Binding ScoreKeeperDisplay}" FontWeight="DemiBold"/>
+            </StackPanel>
+            <TextBlock Name = "QueryTextBlock"
+                   Text="{Binding CurrentQuestion.Query}"
                    Grid.Column="1"
                    FontWeight="Bold"
                    FontSize="25"
@@ -34,36 +39,49 @@
                    Grid.Column="2"/>
         </Grid>
         <StackPanel Orientation="Horizontal"
+                    DataContext="{Binding }"
                     HorizontalAlignment="Center"
                     Grid.Row="1">
             <Button HorizontalAlignment="Left" Margin="10" Height="80"
+                    Command="{Binding AnswerButtonCommand}"
+                   Name="AnswerButton1"
                    Width="200"
-                   Content="Svar 1: "
-                   FontWeight="Bold"
-                   BorderBrush="Black"
-                   >                
-            </Button>
-            <Button HorizontalAlignment="Right" Margin="10" Height="80"
-                   Width="200"
-                   Content="Svar 2: "
+                   Content="{Binding ShuffledAnswers[0]}"
+                   CommandParameter="{Binding Content,RelativeSource={RelativeSource Self}}"
                    FontWeight="Bold"
                    BorderBrush="Black"
                    >
             </Button>
-        </StackPanel>        
+            <Button HorizontalAlignment="Right" Margin="10" Height="80"
+                    Command="{Binding AnswerButtonCommand}"
+                    Name="AnswerButton2"
+                   Width="200"
+                   Content="{Binding ShuffledAnswers[1]}"
+                   CommandParameter="{Binding Content,RelativeSource={RelativeSource Self}}"
+                   FontWeight="Bold"
+                   BorderBrush="Black"
+                   >
+            </Button>
+        </StackPanel>
         <StackPanel Orientation="Horizontal"
                     HorizontalAlignment="Center"
                     Grid.Row="2">
             <Button HorizontalAlignment="Left" Margin="10" Height="80"
+                    Command="{Binding AnswerButtonCommand}"
+                    Name="AnswerButton3"
                    Width="200"
-                   Content="Svar 3: "
+                   Content="{Binding ShuffledAnswers[2]}"
+                   CommandParameter="{Binding Content,RelativeSource={RelativeSource Self}}"
                    FontWeight="Bold"
                    BorderBrush="Black"
                    >
-                </Button>
+            </Button>
             <Button HorizontalAlignment="Right" Margin="10" Height="80"
+                    Command="{Binding AnswerButtonCommand}"
+                    Name="AnswerButton4"
                    Width="200"
-                   Content="Svar 4: "
+                   Content="{Binding ShuffledAnswers[3]}"
+                   CommandParameter="{Binding Content,RelativeSource={RelativeSource Self}}"
                    FontWeight="Bold"
                    BorderBrush="Black"
                    >
