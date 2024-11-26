@@ -24,6 +24,14 @@ namespace Labb_3_CSharp.ViewModel
         public PlayerViewModel PlayerViewModel { get; }
         public ConfigurationViewModel ConfigurationViewModel { get; }
         private QuestionPackViewModel? _activePack;
+        private DifficultyConverter? _difficultyConverter;
+        public DifficultyConverter DifficultyConverter { get => _difficultyConverter;
+            set
+            {
+                _difficultyConverter = value;
+                RaisePropertyChanged();
+            }
+        }
         private object _currentView;
         public object CurrentView
         {
@@ -52,6 +60,7 @@ namespace Labb_3_CSharp.ViewModel
             Packs = new ObservableCollection<QuestionPackViewModel>();
             ActivePack = new QuestionPackViewModel(new QuestionPack("My Question Pack"));
             Packs.Add(ActivePack);
+            DifficultyConverter = new DifficultyConverter();
             CreateNewPackCommand = new DelegateCommand(CreateNewPack);
             DeletePackCommand = new DelegateCommand(DeleteSelectedPack, CanRemove);
             SelectPackCommand = new DelegateCommand(ExecuteSelectPack);
@@ -61,7 +70,7 @@ namespace Labb_3_CSharp.ViewModel
         private void PlayButton(object obj)
         {
             var playerView = new PlayerView();
-            playerView.DataContext = PlayerViewModel;
+            //playerView.DataContext = PlayerViewModel;
             CurrentView = playerView;
             PlayerViewModel.LoadQuestion();
         }

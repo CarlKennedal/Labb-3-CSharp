@@ -46,6 +46,7 @@ namespace Labb_3_CSharp.ViewModel
         private void OpenPackOptions(object parameter)
         {
             PackOptions packOptionsWindow = new PackOptions();
+            packOptionsWindow.DataContext = mainWindomViewModel;
             packOptionsWindow.ShowDialog();
         }
 

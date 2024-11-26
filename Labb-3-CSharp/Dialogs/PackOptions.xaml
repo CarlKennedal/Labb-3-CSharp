@@ -4,9 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Labb_3_CSharp.Dialogs"
-        xmlns:viewmodel="clr-namespace:Labb_3_CSharp.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:MainWindomViewModel}"
+        xmlns:viewmodel="clr-namespace:Labb_3_CSharp.ViewModel" xmlns:model="clr-namespace:Labb_3_CSharp.Model"
         mc:Ignorable="d"
         Title="PackOptions" Height="180" Width="160">
+    <Window.Resources>
+        <model:DifficultyConverter x:Key="diffConv"/>
+    </Window.Resources>
     <Grid>
         <StackPanel>
             <TextBlock Text="Pack Name:"
@@ -18,8 +21,12 @@
             <TextBlock Text="Difficulty:"
                    FontWeight="DemiBold"
                    Margin="5,0,5,0"/>
-            <ComboBox SelectedIndex="{Binding ActivePack.Difficulty}"
-                Margin="5,0,5,5">
+            <ComboBox ItemsSource="{Binding Source={StaticResource diffConv}}"
+          SelectedValue="{Binding DifficultyConverter,
+                                Converter={StaticResource diffConv}, 
+                                ConverterParameter={x:Type model:DifficultyConverter}}"
+                Margin="5,0,5,5" 
+                 >
                 <ComboBoxItem Tag="1"
                               Content="Easy"/>
                 <ComboBoxItem Tag="2"

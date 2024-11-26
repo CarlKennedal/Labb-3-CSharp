@@ -10,13 +10,40 @@ namespace Labb_3_CSharp.ViewModel
     {
         private readonly MainWindomViewModel? mainWindomViewModel;
         public QuestionPackViewModel? ActivePack { get => mainWindomViewModel?.ActivePack; }
-        public Question CurrentQuestion { get; set; }
+        private Question _currentQuestion;
         public DispatcherTimer timer;
         public int QuestionAmount { get; set; } = 0;
         public int CurrentQuestionIndex { get; set; } = 0;
-        public string QuestionAmountDisplay { get; set; }
         public int ScoreKeeper { get; set; }
-        public string ScoreKeeperDisplay { get; set; }
+        private string _questionAmountDisplay;
+        public string QuestionAmountDisplay
+        {
+            get => _questionAmountDisplay;
+            set
+            {
+                _questionAmountDisplay = value;
+                RaisePropertyChanged();
+            }
+        }
+        private string _scoreKeeperDisplay;
+        public string ScoreKeeperDisplay
+        {
+            get => _scoreKeeperDisplay;
+            set
+            {
+                _scoreKeeperDisplay = value;
+                RaisePropertyChanged();
+            }
+        }
+        public Question CurrentQuestion
+        {
+            get => _currentQuestion;
+            set
+            {
+                _currentQuestion = value;
+                RaisePropertyChanged();
+            }
+        }
         private List<string> _shuffledAnswers;
         public List<string> ShuffledAnswers
         {
@@ -58,17 +85,20 @@ namespace Labb_3_CSharp.ViewModel
 
         public void LoadQuestion()
         {
-            if (CurrentQuestionIndex > ActivePack.Questions.Count)
+            if (CurrentQuestionIndex >= ActivePack.Questions.Count)
             {
                 CurrentQuestionIndex = 0;
-                return;
+                ScoreKeeper = 0;
+                this.mainWindomViewModel.EndGame();
+                RaisePropertyChanged();
             }
-            if (CurrentQuestionIndex <= ActivePack.Questions.Count)
+            if (CurrentQuestionIndex < ActivePack.Questions.Count)
             {
-                QuestionAmountDisplay = $"Question: {CurrentQuestionIndex} of {ActivePack.Questions.Count}";
+                QuestionAmountDisplay = $"Question: {CurrentQuestionIndex + 1} of {ActivePack.Questions.Count}";
                 QuestionAmount = ActivePack.Questions.Count;
                 CurrentQuestion = ActivePack.Questions[CurrentQuestionIndex];
                 ShuffledAnswers = QuizHelper.GetShuffledAnswers(CurrentQuestion);
+                RaisePropertyChanged();
             }
         }
 
@@ -92,11 +122,13 @@ namespace Labb_3_CSharp.ViewModel
                     ScoreKeeper = +1;
                     ScoreKeeperDisplay = $"Score: {ScoreKeeper} out of {QuestionAmount}";
                     CurrentQuestionIndex++;
+                    RaisePropertyChanged();
                     LoadQuestion();
                 }
                 else
                 {
                     CurrentQuestionIndex++;
+                    RaisePropertyChanged();
                     LoadQuestion();
                 }
             }

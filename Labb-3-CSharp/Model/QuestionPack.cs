@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Labb_3_CSharp.Model
 {
-    enum Difficulty {Easy, Medium, Hard};
+    enum Difficulty {Easy = 1, Medium = 2, Hard = 3};
     internal class QuestionPack
     {
         public QuestionPack(string name, Difficulty difficulty = Difficulty.Medium, int timeLimitInSeconds = 30)
