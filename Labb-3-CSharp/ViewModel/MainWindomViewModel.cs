@@ -8,8 +8,12 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json;
+using Newtonsoft.Json.Linq;
+using System.IO;
 using System.Windows.Input;
 using Labb_3_CSharp.Views;
+using System.Text.Json.Serialization;
 
 namespace Labb_3_CSharp.ViewModel
 {
@@ -18,15 +22,19 @@ namespace Labb_3_CSharp.ViewModel
         public DelegateCommand CreateNewPackCommand { get; }
         public DelegateCommand SelectPackCommand { get; }
         public DelegateCommand DeletePackCommand { get; }
-        public DelegateCommand OpenNewPackCommand {  get; }
+        public DelegateCommand OpenNewPackCommand { get; }
         public DelegateCommand ExitAppCommand { get; }
         public DelegateCommand PlayButtonCommand { get; }
+        public DelegateCommand LoadPacksCommand { get; }
         public ObservableCollection<QuestionPackViewModel>? Packs { get; set; }
         public PlayerViewModel PlayerViewModel { get; }
         public ConfigurationViewModel ConfigurationViewModel { get; }
-        private QuestionPackViewModel? _activePack;
-        private DifficultyConverter? _difficultyConverter;
-        public DifficultyConverter DifficultyConverter { get => _difficultyConverter;
+        public QuestionPackViewModel? _activePack;
+        public static readonly string FilePath = "carls_question_packs.json";
+        public DifficultyConverter? _difficultyConverter;
+        public DifficultyConverter DifficultyConverter
+        {
+            get => _difficultyConverter;
             set
             {
                 _difficultyConverter = value;
@@ -34,11 +42,13 @@ namespace Labb_3_CSharp.ViewModel
             }
         }
         private string _packName;
-        public string PackName { get => _packName; set
+        public string PackName
+        {
+            get => _packName; set
             {
                 _packName = value;
                 RaisePropertyChanged();
-            } 
+            }
         }
         private Difficulty _difficulty;
         public Difficulty Difficulty
@@ -93,11 +103,57 @@ namespace Labb_3_CSharp.ViewModel
             ExitAppCommand = new DelegateCommand(ExitApp);
             PlayButtonCommand = new DelegateCommand(PlayButton);
             OpenNewPackCommand = new DelegateCommand(OpenNewPackWindow);
+            LoadPacksCommand = new DelegateCommand(LoadPacks, CanLoad);
         }
+
+        private bool CanLoad(object? arg)
+        {
+            string jsonContent = File.ReadAllText(FilePath);
+            return jsonContent != null;
+        }
+
+        private void LoadPacks(object obj)
+        {
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            string jsonContent = File.ReadAllText(FilePath);
+            ObservableCollection<QuestionPack> LoadedPacks = JsonSerializer.Deserialize<ObservableCollection<QuestionPack>>(jsonContent, options);
+            foreach (var pack in LoadedPacks)
+            {
+                var LoadedPack = new QuestionPackViewModel(pack);
+                Packs.Add(LoadedPack);
+            }
+        }
+
+        public void SaveToFile()
+        {
+
+            ObservableCollection<QuestionPack> existingData = File.Exists(FilePath)
+    ? JsonSerializer.Deserialize<ObservableCollection<QuestionPack>>(File.ReadAllText(FilePath))
+    : new ObservableCollection<QuestionPack>();
+            foreach (var packViewModel in Packs)
+            {
+                var pack = new QuestionPack(
+                        packViewModel.Name,
+                        packViewModel.Difficulty,
+                        packViewModel.TimeLimitInSeconds,
+                        packViewModel.Questions);
+
+                if (!existingData.Any(qp => qp.Name == pack.Name))
+                {
+                    existingData.Add(pack);
+                }
+
+            }
+            string json = JsonSerializer.Serialize(existingData, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(FilePath, json);
+        }
+
         private void PlayButton(object obj)
         {
             var playerView = new PlayerView();
-            //playerView.DataContext = PlayerViewModel;
             CurrentView = playerView;
             PlayerViewModel.LoadQuestion();
         }
@@ -110,6 +166,7 @@ namespace Labb_3_CSharp.ViewModel
 
         private void ExitApp(object obj)
         {
+            SaveToFile();
             Application.Current.Shutdown();
         }
         public void OpenNewPackWindow(object parameter)
@@ -144,5 +201,6 @@ namespace Labb_3_CSharp.ViewModel
         {
             return ActivePack != null;
         }
+
     }
 }

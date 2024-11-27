@@ -10,73 +10,73 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
 using System.IO;
+using System.Text.Json.Serialization;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Labb_3_CSharp.ViewModel
 {
     internal class QuestionPackViewModel : ViewModelBase
     {
-        private static readonly string FilePath = "question_packs.json";
-        private readonly QuestionPack model;
-        public QuestionPackViewModel(QuestionPack model) 
+        public readonly QuestionPack pack;
+        public QuestionPackViewModel(QuestionPack questionPack) 
         {
-            this.model = model;
-            this.Questions = new ObservableCollection<Question>(model.Questions);
-            
+            pack = questionPack;
         }
+
         public string Name 
-        { get => model.Name; 
+        { get => pack.Name; 
             set
             {
-                model.Name = value;
+                pack.Name = value;
                 RaisePropertyChanged();
-                SaveToFile();
             }
         }
         public Difficulty Difficulty
         {
-            get => model.Difficulty;
+            get => pack.Difficulty;
             set
             {
-                model.Difficulty = value;
+                pack.Difficulty = value;
                 RaisePropertyChanged();
-                SaveToFile();
             }
         }
         public int TimeLimitInSeconds
         {
-            get => model.TimeLimitInSeconds;
+            get => pack.TimeLimitInSeconds;
             set
             {
-                model.TimeLimitInSeconds = value;
+                pack.TimeLimitInSeconds = value;
                 RaisePropertyChanged();
-                SaveToFile();
             }
         }
-        public ObservableCollection<Question> Questions { get; }
-
-        //private QuestionPack ToSerializedState() 
-        //{
-        //    return new QuestionPack()
-        //    {
-        //        Name = this.Name,
-        //        Difficulty = this.Difficulty,
-        //        TimeLimitInSeconds = this.TimeLimitInSeconds,
-        //        Questions = new List<Question>(this.Questions),
-        //    };
-        //}
-
-        public void SaveToFile()
-        {
-            try
+        private ObservableCollection<Question> _questions;
+        public ObservableCollection<Question> Questions {
+            get
             {
-                var existingData = File.Exists(FilePath) ?
-                    JsonSerializer.Deserialize<List<QuestionPack>>(File.ReadAllText(FilePath))
-                    : new List<QuestionPack>();
+                if (_questions == null && pack.Questions != null)
+                {
+                    _questions = new ObservableCollection<Question>(pack.Questions);
+                }
+                return _questions;
             }
-            catch (Exception ex)
+            set
             {
-                throw new NotImplementedException();
+                if (_questions != value)
+                {
+                    _questions = value;
+
+                    if (_questions != null)
+                    {
+                        pack.Questions = new ObservableCollection<Question>(_questions);
+                    }
+                    else
+                    {
+                        pack.Questions = null;
+                    }
+                    RaisePropertyChanged();
+                }
             }
         }
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Net.Http;
@@ -11,38 +12,24 @@ namespace Labb_3_CSharp.Model
 {
     enum Difficulty {Easy, Medium, Hard};
 
-    internal class QuestionPack : INotifyPropertyChanged
+    internal class QuestionPack
     {
-        public QuestionPack(string name, Difficulty difficulty = Difficulty.Medium, int timeLimitInSeconds = 30)
+        public QuestionPack(string name, Difficulty difficulty = Difficulty.Medium, int timeLimitInSeconds = 15, ObservableCollection<Question>? questions = null)
         {
             Name = name;
             Difficulty = difficulty;
             TimeLimitInSeconds = timeLimitInSeconds;
-            Questions = new List<Question>();
+            Questions = questions ?? new ObservableCollection<Question>();
         }
+
 
         public string Name { get; set; }
-        private Difficulty _difficulty;
 
-
-        public Difficulty Difficulty {
-            get => _difficulty;
-            set 
-            {
-                _difficulty = value;
-                RaisePropertyChanged();
-            } 
-        }
+        public Difficulty Difficulty { get; set; }
 
         public int TimeLimitInSeconds { get; set; }
 
-        public List<Question> Questions { get; set; }
-        public IEnumerable<int> Difficulties => Enum.GetValues(typeof(Difficulty)).Cast<int>();
+        public ObservableCollection<Question> Questions { get; set; }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-        public void RaisePropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }

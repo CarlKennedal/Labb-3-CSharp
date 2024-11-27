@@ -52,8 +52,8 @@ namespace Labb_3_CSharp.ViewModel
 
         private void AddButton(object parameter)
         {
-           ActivePack?.Questions.Add(new Question("Fråga","Rätt svar","Fel svar 1","Fel svar två","Fel svar tre"));
-           AddButtonCommand.RaiseCanExecuteChanged();
+            ActivePack?.Questions.Add(new Question("Fråga", "Rätt svar", "Fel svar ett", "Fel svar två", "Fel svar tre"));
+            AddButtonCommand.RaiseCanExecuteChanged();
         }
 
         private void RemoveButton(object parameter) 

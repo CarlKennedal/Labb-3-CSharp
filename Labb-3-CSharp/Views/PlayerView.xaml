@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:Labb_3_CSharp.Views" xmlns:viewmodel="clr-namespace:Labb_3_CSharp.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:MainWindomViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid DataContext="{Binding PlayerViewModel}">
+    <Grid DataContext="{Binding PlayerViewModel}"
+           VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="150"/>
             <RowDefinition Height="*"/>
@@ -24,16 +25,20 @@
                            FontWeight="DemiBold"/>
                 <TextBlock Margin="20,15,20,0" Text="{Binding ScoreKeeperDisplay}" FontWeight="DemiBold"/>
             </StackPanel>
-            <Label Name = "QueryLabel"
-                   Content="{Binding Path=CurrentQuestion.Query, UpdateSourceTrigger=PropertyChanged}"
+            <TextBox Name = "QueryText"
+                   Text="{Binding Path=CurrentQuestion.Query, UpdateSourceTrigger=PropertyChanged}"
                    Grid.Column="1"
                    FontWeight="Bold"
-                   FontSize="25"
+                   FontSize="15"
                    VerticalAlignment="Center"
-                   HorizontalAlignment="Center"/>
-            <Label Content="Timer"
+                   HorizontalAlignment="Center"
+                   TextWrapping="Wrap"
+                   AcceptsReturn="True"
+                   Height="100"
+                     Width="350"/>
+            <Label Content="{Binding Path=TimeRemaining, UpdateSourceTrigger=PropertyChanged}"
                    FontWeight="Bold"
-                   FontSize="20"
+                   FontSize="40"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
                    Grid.Column="2"/>

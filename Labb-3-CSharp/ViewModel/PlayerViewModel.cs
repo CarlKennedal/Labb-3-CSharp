@@ -11,10 +11,21 @@ namespace Labb_3_CSharp.ViewModel
         private readonly MainWindomViewModel? mainWindomViewModel;
         public QuestionPackViewModel? ActivePack { get => mainWindomViewModel?.ActivePack; }
         private Question _currentQuestion;
-        public DispatcherTimer timer;
+        public DispatcherTimer timer = new DispatcherTimer();
         public int QuestionAmount { get; set; } = 0;
         public int CurrentQuestionIndex { get; set; } = 0;
+        public int CountdownTimer { get; set; } = 0;
         public int ScoreKeeper { get; set; }
+        private int _timeRemaining;
+        public int TimeRemaining
+        {
+            get => _timeRemaining;
+            set
+            {
+                _timeRemaining = value;
+                RaisePropertyChanged();
+            }
+        }
         private string _questionAmountDisplay;
         public string QuestionAmountDisplay
         {
@@ -71,16 +82,33 @@ namespace Labb_3_CSharp.ViewModel
         public PlayerViewModel(MainWindomViewModel? mainWindomViewModel)
         {
             this.mainWindomViewModel = mainWindomViewModel;
-
-            TestData = "Start value: ";
-
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(1);
-            timer.Tick += Timer_Tick;
-            //timer.Start();
-
-            UpdateButtonCommand = new DelegateCommand(UpdateButton, CanUpdateButton);
             AnswerButtonCommand = new DelegateCommand(AnswerButton);
+        }
+        public void Countdown()
+        {
+            TimeRemaining = ActivePack.TimeLimitInSeconds;
+            CountdownTimer = ActivePack.TimeLimitInSeconds;
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Start();
+            timer.Tick -= Timer_Tick;
+            timer.Tick += Timer_Tick;
+        }
+        public void Timer_Tick(object sender, EventArgs e)
+        {
+            if (CountdownTimer > 0)
+            {
+                CountdownTimer -= 1;
+                TimeRemaining -= 1;
+                RaisePropertyChanged();
+            }
+            if (CountdownTimer <= 0)
+            {
+                CountdownTimer = ActivePack.TimeLimitInSeconds;
+                timer.Stop();
+                ScoreKeeper += 0;
+                CurrentQuestionIndex++;
+                LoadQuestion();
+            }
         }
 
         public void LoadQuestion()
@@ -94,24 +122,14 @@ namespace Labb_3_CSharp.ViewModel
             }
             if (CurrentQuestionIndex < ActivePack.Questions.Count)
             {
+                timer.Stop();
+                Countdown();
                 QuestionAmountDisplay = $"Question: {CurrentQuestionIndex + 1} of {ActivePack.Questions.Count}";
                 QuestionAmount = ActivePack.Questions.Count;
                 CurrentQuestion = ActivePack.Questions[CurrentQuestionIndex];
                 ShuffledAnswers = QuizHelper.GetShuffledAnswers(CurrentQuestion);
                 RaisePropertyChanged();
             }
-        }
-
-        private bool CanUpdateButton(object? arg) => TestData.Length < 20;
-        private void UpdateButton(object obj)
-        {
-            TestData += "x";
-            UpdateButtonCommand.RaiseCanExecuteChanged();
-        }
-
-        private void Timer_Tick(object? sender, EventArgs e)
-        {
-            TestData += "x";
         }
         private void AnswerButton(object obj)
         {
