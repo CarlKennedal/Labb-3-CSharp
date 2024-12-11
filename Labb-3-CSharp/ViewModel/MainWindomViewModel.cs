@@ -26,12 +26,14 @@ namespace Labb_3_CSharp.ViewModel
         public DelegateCommand ExitAppCommand { get; }
         public DelegateCommand PlayButtonCommand { get; }
         public DelegateCommand LoadPacksCommand { get; }
+        public DelegateCommand SavePacksCommand { get; }
+        public DelegateCommand MenuViewFullScreenCommand { get; }
+
         public ObservableCollection<QuestionPackViewModel>? Packs { get; set; }
         public PlayerViewModel PlayerViewModel { get; }
         public ConfigurationViewModel ConfigurationViewModel { get; }
         public QuestionPackViewModel? _activePack;
-        public static readonly string FilePath = "carls_question_packs.json";
-        public DifficultyConverter? _difficultyConverter;
+        public static readonly string FilePath = Path.Combine(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName, "carls_question_packs.json"); public DifficultyConverter? _difficultyConverter;
         public DifficultyConverter DifficultyConverter
         {
             get => _difficultyConverter;
@@ -94,8 +96,6 @@ namespace Labb_3_CSharp.ViewModel
             PlayerViewModel = new PlayerViewModel(this);
             ConfigurationViewModel = new ConfigurationViewModel(this);
             Packs = new ObservableCollection<QuestionPackViewModel>();
-            ActivePack = new QuestionPackViewModel(new QuestionPack("My Question Pack"));
-            Packs.Add(ActivePack);
             DifficultyConverter = new DifficultyConverter();
             CreateNewPackCommand = new DelegateCommand(CreateNewPack);
             DeletePackCommand = new DelegateCommand(DeleteSelectedPack, CanRemove);
@@ -103,7 +103,11 @@ namespace Labb_3_CSharp.ViewModel
             ExitAppCommand = new DelegateCommand(ExitApp);
             PlayButtonCommand = new DelegateCommand(PlayButton);
             OpenNewPackCommand = new DelegateCommand(OpenNewPackWindow);
+            MenuViewFullScreenCommand = new DelegateCommand(FullscreenToggle);
+            SavePacksCommand = new DelegateCommand(SavePacks);
             LoadPacksCommand = new DelegateCommand(LoadPacks, CanLoad);
+            LoadPacksCommand.Execute(this);
+            ActivePack = Packs[0];
         }
 
         private bool CanLoad(object? arg)
@@ -151,6 +155,11 @@ namespace Labb_3_CSharp.ViewModel
             File.WriteAllText(FilePath, json);
         }
 
+        public void SavePacks(object obj)
+        {
+            SaveToFile();
+        }
+
         private void PlayButton(object obj)
         {
             var playerView = new PlayerView();
@@ -166,7 +175,6 @@ namespace Labb_3_CSharp.ViewModel
 
         private void ExitApp(object obj)
         {
-            SaveToFile();
             Application.Current.Shutdown();
         }
         public void OpenNewPackWindow(object parameter)
@@ -202,5 +210,9 @@ namespace Labb_3_CSharp.ViewModel
             return ActivePack != null;
         }
 
+        public void FullscreenToggle()
+        {
+            MainWindow.ToggleFullScreen();
+        }
     }
 }

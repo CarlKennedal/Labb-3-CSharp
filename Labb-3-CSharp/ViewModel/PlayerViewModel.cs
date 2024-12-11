@@ -12,6 +12,7 @@ namespace Labb_3_CSharp.ViewModel
         public QuestionPackViewModel? ActivePack { get => mainWindomViewModel?.ActivePack; }
         private Question _currentQuestion;
         public DispatcherTimer timer = new DispatcherTimer();
+        public DelegateCommand EndGameCommand { get; }
         public int QuestionAmount { get; set; } = 0;
         public int CurrentQuestionIndex { get; set; } = 0;
         public int CountdownTimer { get; set; } = 0;
@@ -83,6 +84,7 @@ namespace Labb_3_CSharp.ViewModel
         {
             this.mainWindomViewModel = mainWindomViewModel;
             AnswerButtonCommand = new DelegateCommand(AnswerButton);
+            EndGameCommand = new DelegateCommand(PlayerEndGame);
         }
         public void Countdown()
         {
@@ -115,6 +117,9 @@ namespace Labb_3_CSharp.ViewModel
         {
             if (CurrentQuestionIndex >= ActivePack.Questions.Count)
             {
+                GameFinishedWindow gameFinishedWindow = new GameFinishedWindow();
+                gameFinishedWindow.DataContext = mainWindomViewModel;
+                gameFinishedWindow.ShowDialog();
                 CurrentQuestionIndex = 0;
                 ScoreKeeper = 0;
                 this.mainWindomViewModel.EndGame();
@@ -137,8 +142,8 @@ namespace Labb_3_CSharp.ViewModel
             {
                 if (obj as String == CurrentQuestion.CorrectAnswer)
                 {
-                    ScoreKeeper = +1;
-                    ScoreKeeperDisplay = $"Score: {ScoreKeeper} out of {QuestionAmount}";
+                    ScoreKeeper = ScoreKeeper + 1;
+                    ScoreKeeperDisplay = $"You got: {ScoreKeeper} points out of {QuestionAmount} possible!";
                     CurrentQuestionIndex++;
                     RaisePropertyChanged();
                     LoadQuestion();
@@ -150,6 +155,10 @@ namespace Labb_3_CSharp.ViewModel
                     LoadQuestion();
                 }
             }
+        }
+        public void PlayerEndGame(object obj)
+        {
+            this.mainWindomViewModel.EndGame();
         }
     }
 }

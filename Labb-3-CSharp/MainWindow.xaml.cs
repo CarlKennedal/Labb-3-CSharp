@@ -16,7 +16,7 @@ namespace Labb_3_CSharp
     public partial class MainWindow : Window
     {
         public static readonly string FilePath = "question_packs.json";
-        public static readonly RoutedCommand ToggleFullscreenCommand = new RoutedCommand();
+        public static RoutedCommand ToggleFullscreenCommand = new RoutedCommand();
         public MainWindow()
         {
             InitializeComponent();
@@ -26,12 +26,12 @@ namespace Labb_3_CSharp
 
         }
 
-        private void ToggleFullscreenCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        public void ToggleFullscreenCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             ToggleFullScreen();
         }
 
-        private void ToggleFullScreen()
+        public void ToggleFullScreen()
         {
             if (this.WindowState == WindowState.Normal)
             {
@@ -44,5 +44,6 @@ namespace Labb_3_CSharp
                 this.WindowState = WindowState.Normal;
             }
         }
+
     }
 }

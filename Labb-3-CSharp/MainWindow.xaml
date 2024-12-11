@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Labb_3_CSharp" xmlns:views="clr-namespace:Labb_3_CSharp.Views" xmlns:dialogs="clr-namespace:Labb_3_CSharp.Dialogs" xmlns:viewmodel="clr-namespace:Labb_3_CSharp.ViewModel" 
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" MinHeight="450" MinWidth="800" VerticalAlignment="Stretch">
     <Window.InputBindings>
         <KeyBinding Command="local:MainWindow.ToggleFullscreenCommand"
                     Key="Enter"
@@ -17,18 +17,14 @@
                         Executed="ToggleFullscreenCommand_Executed"/>
     </Window.CommandBindings>
 
-    <Grid>
+    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <views:MenuView Grid.Row="0" Margin="0,0,0,5"/>
-        <ContentControl Content="{Binding CurrentView}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-
-        <!--<views:ConfigurationView Grid.Row="1"/>-->
-
-        <!--<views:PlayerView Grid.Row="1"/>-->
+        <ContentControl Content="{Binding CurrentView}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
     </Grid>
 </Window>

@@ -5,14 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Labb_3_CSharp.Views" xmlns:viewmodel="clr-namespace:Labb_3_CSharp.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:MainWindomViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:MinHeight="450" d:MinWidth="800">
     <Grid DataContext="{Binding PlayerViewModel}"
            VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="150"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -23,7 +22,6 @@
             <StackPanel Orientation="Vertical">
                 <TextBlock Margin ="20,70,20,0" Text="{Binding QuestionAmountDisplay, UpdateSourceTrigger=PropertyChanged}"
                            FontWeight="DemiBold"/>
-                <TextBlock Margin="20,15,20,0" Text="{Binding ScoreKeeperDisplay}" FontWeight="DemiBold"/>
             </StackPanel>
             <TextBox Name = "QueryText"
                    Text="{Binding Path=CurrentQuestion.Query, UpdateSourceTrigger=PropertyChanged}"
@@ -43,7 +41,7 @@
                    HorizontalAlignment="Center"
                    Grid.Column="2"/>
         </Grid>
-        <StackPanel Orientation="Horizontal"
+        <DockPanel 
                     HorizontalAlignment="Center"
                     Grid.Row="1">
             <Button HorizontalAlignment="Left" Margin="10" Height="80"
@@ -53,8 +51,7 @@
                    Content="{Binding ShuffledAnswers[0], UpdateSourceTrigger=PropertyChanged}"
                    CommandParameter="{Binding Content,RelativeSource={RelativeSource Self}}"
                    FontWeight="Bold"
-                   BorderBrush="Black"
-                   >
+                   BorderBrush="Black">
             </Button>
             <Button HorizontalAlignment="Right" Margin="10" Height="80"
                     Command="{Binding AnswerButtonCommand}"
@@ -63,12 +60,10 @@
                    Content="{Binding ShuffledAnswers[1], UpdateSourceTrigger=PropertyChanged}"
                    CommandParameter="{Binding Content,RelativeSource={RelativeSource Self}}"
                    FontWeight="Bold"
-                   BorderBrush="Black"
-                   >
+                   BorderBrush="Black">
             </Button>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal"
-                    HorizontalAlignment="Center"
+        </DockPanel>
+        <DockPanel  HorizontalAlignment="Center"
                     Grid.Row="2">
             <Button HorizontalAlignment="Left" Margin="10" Height="80"
                     Command="{Binding AnswerButtonCommand}"
@@ -77,8 +72,7 @@
                    Content="{Binding ShuffledAnswers[2], UpdateSourceTrigger=PropertyChanged}"
                    CommandParameter="{Binding Content,RelativeSource={RelativeSource Self}}"
                    FontWeight="Bold"
-                   BorderBrush="Black"
-                   >
+                   BorderBrush="Black">
             </Button>
             <Button HorizontalAlignment="Right" Margin="10" Height="80"
                     Command="{Binding AnswerButtonCommand}"
@@ -87,9 +81,12 @@
                    Content="{Binding ShuffledAnswers[3], UpdateSourceTrigger=PropertyChanged}"
                    CommandParameter="{Binding Content,RelativeSource={RelativeSource Self}}"
                    FontWeight="Bold"
-                   BorderBrush="Black"
-                   >
+                   BorderBrush="Black">
             </Button>
-        </StackPanel>
+        </DockPanel>
+        <DockPanel Grid.Row="2" HorizontalAlignment="Right">
+            <Button Content="End Game" Command="{Binding EndGameCommand}" 
+                    Height="20" Margin="20" FontWeight="Bold"/>
+        </DockPanel>
     </Grid>
 </UserControl>

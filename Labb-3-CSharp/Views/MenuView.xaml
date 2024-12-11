@@ -36,6 +36,11 @@
                 <MenuItem Header="_Delete Question Pack"
                           Icon="{fa:Icon TrashCan}" 
                           Command="{Binding DeletePackCommand}"/>
+                <Separator BorderBrush="DarkGray" BorderThickness="1"/>
+
+                <MenuItem Header="_Save Question Packs"
+                          Command="{Binding SavePacksCommand}"
+                          Icon="{fa:Icon FloppyDisk}"/>
 
                 <Separator BorderBrush="DarkGray" BorderThickness="1"/>
 
@@ -66,9 +71,11 @@
                           Icon="{fa:Icon Play}"
                           Command="{Binding PlayButtonCommand}"/>
                 <Separator/>
-                <MenuItem Header="_Fullscreen"
-                              InputGestureText="Alt+Enter"
-                              Icon="{fa:Icon Expand}"/>
+                <MenuItem  Header="_Fullscreen"
+                           DataContext="{Binding MainWindow}"
+                           InputGestureText="Alt+Enter"
+                           Command=""
+                           Icon="{fa:Icon Expand}"/>
             </MenuItem>
         </Menu>
     </Grid>

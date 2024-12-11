@@ -1,0 +1,20 @@
+﻿<Window x:Class="Labb_3_CSharp.Dialogs.GameFinishedWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Labb_3_CSharp.Dialogs" xmlns:viewmodel="clr-namespace:Labb_3_CSharp.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:MainWindomViewModel}"
+        mc:Ignorable="d"
+        Title="GameFinishedWindow" Height="300" Width="400">
+    <Grid>
+        <StackPanel>
+            <TextBlock Text="Game Finished!" FontWeight="Bold" FontSize="50"
+                       HorizontalAlignment="Center" Margin="0,60,0,20"/>
+            <StackPanel DataContext="{Binding PlayerViewModel}">
+                <TextBlock Text="{Binding ScoreKeeperDisplay}"
+                           FontSize="30" FontWeight="DemiBold"
+                           TextWrapping="Wrap" Height="100" Width="250"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
