@@ -9,7 +9,7 @@
              DataContext="{Binding ConfigurationViewModel}"
              mc:Ignorable="d" 
              d:MinHeight="450" d:MinWidth="800" VerticalAlignment="Stretch">
-    <Grid Margin="10" VerticalAlignment="Stretch">
+    <Grid Margin="10" VerticalAlignment="Stretch" Height="Auto">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*" />
             <ColumnDefinition Width="3*" />
@@ -25,7 +25,7 @@
                 <Separator></Separator>
                 <ListBox ItemsSource="{Binding ActivePack.Questions}"
          SelectedItem="{Binding SelectedQuestion, Mode=TwoWay}"
-         Grid.Column="0"
+         Grid.Column="0" VerticalAlignment="Stretch"
          Margin="10">
                     <ListBox.ItemTemplate>
                         <DataTemplate>

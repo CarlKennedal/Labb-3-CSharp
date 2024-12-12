@@ -14,6 +14,7 @@ using System.IO;
 using System.Windows.Input;
 using Labb_3_CSharp.Views;
 using System.Text.Json.Serialization;
+using Labb_3_CSharp.Commands;
 
 namespace Labb_3_CSharp.ViewModel
 {
@@ -33,7 +34,9 @@ namespace Labb_3_CSharp.ViewModel
         public PlayerViewModel PlayerViewModel { get; }
         public ConfigurationViewModel ConfigurationViewModel { get; }
         public QuestionPackViewModel? _activePack;
-        public static readonly string FilePath = Path.Combine(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName, "carls_question_packs.json"); public DifficultyConverter? _difficultyConverter;
+        public static readonly string FilePath = Path.Combine(
+            Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName,
+            "carls_question_packs.json"); public DifficultyConverter? _difficultyConverter;
         public DifficultyConverter DifficultyConverter
         {
             get => _difficultyConverter;
@@ -145,14 +148,21 @@ namespace Labb_3_CSharp.ViewModel
                         packViewModel.TimeLimitInSeconds,
                         packViewModel.Questions);
 
-                if (!existingData.Any(qp => qp.Name == pack.Name))
-                {
-                    existingData.Add(pack);
-                }
+                var existingPack = existingData.FirstOrDefault(qp => qp.Name == pack.Name);
 
+                if (existingPack != null)
+                {
+                    foreach (var question in pack.Questions)
+                    {
+                        if (!existingPack.Questions.Any(q => q.Query == question.Query))
+                        {
+                            existingPack.Questions.Add(question);
+                        }
+                    }
+                }
+                string json = JsonSerializer.Serialize(existingData, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(FilePath, json);
             }
-            string json = JsonSerializer.Serialize(existingData, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(FilePath, json);
         }
 
         public void SavePacks(object obj)
@@ -210,9 +220,10 @@ namespace Labb_3_CSharp.ViewModel
             return ActivePack != null;
         }
 
-        public void FullscreenToggle()
+        public void FullscreenToggle(object obj)
         {
-            MainWindow.ToggleFullScreen();
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            FullscreenToggler.ToggleFullScreen(mainWindow);
         }
     }
 }

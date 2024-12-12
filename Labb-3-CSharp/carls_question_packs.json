@@ -1,0 +1,79 @@
+[
+  {
+    "Name": "Fr\u00E5gor om Carl",
+    "Difficulty": 1,
+    "TimeLimitInSeconds": 20,
+    "Questions": [
+      {
+        "Query": "Vad heter jag i mellannamn?",
+        "CorrectAnswer": "Erik",
+        "IncorrectAnswers": [
+          "Max",
+          "David",
+          "Oliver"
+        ]
+      },
+      {
+        "Query": "Vilket \u00E5r f\u00F6ddes jag?",
+        "CorrectAnswer": "2002",
+        "IncorrectAnswers": [
+          "2000",
+          "1998",
+          "2004"
+        ]
+      },
+      {
+        "Query": "Hur m\u00E5nga g\u00E5nger st\u00E4ngde jag av min dator n\u00E4r labben inte funkade?",
+        "CorrectAnswer": "7",
+        "IncorrectAnswers": [
+          "12",
+          "0",
+          "25"
+        ]
+      }
+    ]
+  },
+  {
+    "Name": "Land Trivia",
+    "Difficulty": 3,
+    "TimeLimitInSeconds": 20,
+    "Questions": [
+      {
+        "Query": "Vilket land gr\u00E4nsar inte till Kenya?",
+        "CorrectAnswer": "Rwanda",
+        "IncorrectAnswers": [
+          "Etiopien",
+          "Tanzania",
+          "Somalia"
+        ]
+      },
+      {
+        "Query": "Vilket land har ett namn baserat p\u00E5 en Italiensk stad?",
+        "CorrectAnswer": "Venezuela",
+        "IncorrectAnswers": [
+          "Colombia",
+          "Belize",
+          "Argentina"
+        ]
+      },
+      {
+        "Query": "Vilket land \u00E4r st\u00F6rst till landytan?",
+        "CorrectAnswer": "Algeriet",
+        "IncorrectAnswers": [
+          "Tyskland",
+          "Irak",
+          "Japan"
+        ]
+      },
+      {
+        "Query": "Vilket land har haft sin flagga l\u00E4ngst?",
+        "CorrectAnswer": "Danmark",
+        "IncorrectAnswers": [
+          "Sverige",
+          "England",
+          "Italien"
+        ]
+      }
+    ]
+  }
+]
