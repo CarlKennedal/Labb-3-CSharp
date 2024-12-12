@@ -14,6 +14,7 @@ using System.IO;
 using System.Windows.Input;
 using Labb_3_CSharp.Views;
 using System.Text.Json.Serialization;
+using Labb_3_CSharp.Commands;
 
 namespace Labb_3_CSharp.ViewModel
 {
@@ -33,7 +34,9 @@ namespace Labb_3_CSharp.ViewModel
         public PlayerViewModel PlayerViewModel { get; }
         public ConfigurationViewModel ConfigurationViewModel { get; }
         public QuestionPackViewModel? _activePack;
-        public static readonly string FilePath = Path.Combine(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName, "carls_question_packs.json"); public DifficultyConverter? _difficultyConverter;
+        public static readonly string FilePath = Path.Combine(
+            Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName,
+            "carls_question_packs.json"); public DifficultyConverter? _difficultyConverter;
         public DifficultyConverter DifficultyConverter
         {
             get => _difficultyConverter;
@@ -210,9 +213,10 @@ namespace Labb_3_CSharp.ViewModel
             return ActivePack != null;
         }
 
-        public void FullscreenToggle()
+        public void FullscreenToggle(object obj)
         {
-            MainWindow.ToggleFullScreen();
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            FullscreenToggler.ToggleFullScreen(mainWindow);
         }
     }
 }

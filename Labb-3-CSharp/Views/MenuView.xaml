@@ -9,7 +9,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Menu>
+        <Menu Height="17.5" VerticalAlignment="Top">
             <MenuItem Header="_File">
 
                 <MenuItem Header="_New Question Pack" 
@@ -72,9 +72,8 @@
                           Command="{Binding PlayButtonCommand}"/>
                 <Separator/>
                 <MenuItem  Header="_Fullscreen"
-                           DataContext="{Binding MainWindow}"
+                           Command="{Binding MenuViewFullScreenCommand}"
                            InputGestureText="Alt+Enter"
-                           Command=""
                            Icon="{fa:Icon Expand}"/>
             </MenuItem>
         </Menu>
