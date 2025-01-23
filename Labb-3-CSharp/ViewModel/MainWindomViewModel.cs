@@ -136,33 +136,52 @@ namespace Labb_3_CSharp.ViewModel
 
         public void SaveToFile()
         {
-
             ObservableCollection<QuestionPack> existingData = File.Exists(FilePath)
-    ? JsonSerializer.Deserialize<ObservableCollection<QuestionPack>>(File.ReadAllText(FilePath))
-    : new ObservableCollection<QuestionPack>();
+                ? JsonSerializer.Deserialize<ObservableCollection<QuestionPack>>(File.ReadAllText(FilePath))
+                : new ObservableCollection<QuestionPack>();
+
             foreach (var packViewModel in Packs)
             {
                 var pack = new QuestionPack(
-                        packViewModel.Name,
-                        packViewModel.Difficulty,
-                        packViewModel.TimeLimitInSeconds,
-                        packViewModel.Questions);
+                    packViewModel.Name,
+                    packViewModel.Difficulty,
+                    packViewModel.TimeLimitInSeconds,
+                    packViewModel.Questions);
 
                 var existingPack = existingData.FirstOrDefault(qp => qp.Name == pack.Name);
 
-                if (existingPack != null)
+                if (existingPack == null)
                 {
-                    foreach (var question in pack.Questions)
+                    existingData.Add(pack);
+                }
+                else
+                {
+                    bool hasChanges =
+                        existingPack.Difficulty != pack.Difficulty ||
+                        existingPack.TimeLimitInSeconds != pack.TimeLimitInSeconds ||
+                        pack.Questions.Any(q =>
+                            !existingPack.Questions.Any(eq =>
+                                eq.Query == q.Query &&
+                                eq.CorrectAnswer == q.CorrectAnswer &&
+                                eq.IncorrectAnswers.SequenceEqual(q.IncorrectAnswers))) ||
+                        existingPack.Questions.Count != pack.Questions.Count;
+
+                    if (hasChanges)
                     {
-                        if (!existingPack.Questions.Any(q => q.Query == question.Query))
+                        existingPack.Difficulty = pack.Difficulty;
+                        existingPack.TimeLimitInSeconds = pack.TimeLimitInSeconds;
+
+                        existingPack.Questions.Clear();
+                        foreach (var question in pack.Questions)
                         {
                             existingPack.Questions.Add(question);
                         }
                     }
                 }
-                string json = JsonSerializer.Serialize(existingData, new JsonSerializerOptions { WriteIndented = true });
-                File.WriteAllText(FilePath, json);
             }
+
+            string json = JsonSerializer.Serialize(existingData, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(FilePath, json);
         }
 
         public void SavePacks(object obj)
@@ -212,7 +231,24 @@ namespace Labb_3_CSharp.ViewModel
         }
         private void DeleteSelectedPack(object obj)
         {
+            if (ActivePack == null)
+                return;
+
             Packs.Remove(ActivePack);
+
+            ObservableCollection<QuestionPack> existingData = File.Exists(FilePath)
+                ? JsonSerializer.Deserialize<ObservableCollection<QuestionPack>>(File.ReadAllText(FilePath))
+                : new ObservableCollection<QuestionPack>();
+
+            var packToRemove = existingData.FirstOrDefault(qp => qp.Name == ActivePack.Name);
+            if (packToRemove != null)
+            {
+                existingData.Remove(packToRemove);
+            }
+
+            string json = JsonSerializer.Serialize(existingData, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(FilePath, json);
+
             RaisePropertyChanged();
         }
         private bool CanRemove(object parameter)
